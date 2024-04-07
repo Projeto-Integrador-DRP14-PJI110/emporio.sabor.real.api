@@ -41,4 +41,9 @@ public class EstoqueService {
         var estoque = estoqueRepository.findByProduto(produto);
         return estoque.map(estoqueMapper::toDTO);
     }
+
+    public List<EstoqueDTO> findAll() {
+        var estoque = estoqueRepository.findAll();
+        return estoqueMapper.toDTO(estoque);
+    }
 }

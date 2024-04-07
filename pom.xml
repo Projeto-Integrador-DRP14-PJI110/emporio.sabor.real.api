@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.5</version>
+    <version>3.2.2</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
@@ -22,18 +22,15 @@
   <maven.compiler.source>21</maven.compiler.source>
   <maven.compiler.target>21</maven.compiler.target>
   <spring-cloud.version>2022.0.0</spring-cloud.version>
-  <spring.starter>3.0.2</spring.starter>
-  <spring.starter.test>3.0.2</spring.starter.test>
-  <spring.starter.actuator>3.0.2</spring.starter.actuator>
-  <spring.starter.web>3.0.2</spring.starter.web>
   <springdocs.version>1.6.15</springdocs.version>
   <commons.io.version>2.12.0</commons.io.version>
   <spring-data-commons.version>3.0.5</spring-data-commons.version>
   <annotations.version>24.0.1</annotations.version>
-  <lombok.version>1.18.24</lombok.version>
+  <lombok.version>1.18.30</lombok.version>
   <jackson.datatype.jsr310.version>2.15.2</jackson.datatype.jsr310.version>
   <springdoc-openapi.version>2.1.0</springdoc-openapi.version>
   <mapstruct.version>1.5.5.Final</mapstruct.version>
+  <postgres.version>42.5.5</postgres.version>
   </properties>
 
   <dependencies>
@@ -41,7 +38,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
-      <version>${spring.starter}</version>
     </dependency>
 
     <dependency>
@@ -51,21 +47,12 @@
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <scope>runtime</scope>
-      <optional>true</optional>
-    </dependency>
-
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <scope>runtime</scope>
+      <artifactId>spring-boot-starter-test</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <version>${spring.starter.test}</version>
+      <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
 
     <dependency>
@@ -77,14 +64,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
-      <version>${spring.starter.actuator}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.micrometer</groupId>
-      <artifactId>micrometer-registry-prometheus</artifactId>
-      <scope>runtime</scope>
-      <version>1.10.3</version>
     </dependency>
 
     <dependency>
@@ -96,7 +75,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-      <version>${spring.starter.web}</version>
     </dependency>
 
     <dependency>
@@ -145,6 +123,13 @@
       <version>${mapstruct.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>runtime</scope>
+      <version>${postgres.version}</version>
+    </dependency>
+
   </dependencies>
 
   <dependencyManagement>
@@ -161,15 +146,38 @@
 
   <build>
 
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.0.0</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.hibernate.orm.tooling</groupId>
+        <artifactId>hibernate-enhance-maven-plugin</artifactId>
+        <version>${hibernate.version}</version>
+        <executions>
+          <execution>
+            <id>enhance</id>
+            <goals>
+              <goal>enhance</goal>
+            </goals>
+            <configuration>
+              <enableLazyInitialization>true</enableLazyInitialization>
+              <enableDirtyTracking>true</enableDirtyTracking>
+              <enableAssociationManagement>true</enableAssociationManagement>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>3.0.0</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.graalvm.buildtools</groupId>
+        <artifactId>native-maven-plugin</artifactId>
+      </plugin>
+
+    </plugins>
   </build>
 
 </project>
