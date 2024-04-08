@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,12 @@ public class EstoqueController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping
+    public ResponseEntity<List<EstoqueDTO>> findAll() {
+        var estoque = estoqueService.findAll();
+        return ResponseEntity.ok(estoque);
+    }
+
     @GetMapping("/id/{id}")
     public ResponseEntity<Optional<EstoqueDTO>> findById(@PathVariable Long id) {
         var estoque = estoqueService.findById(id);
@@ -37,14 +44,8 @@ public class EstoqueController {
     }
 
     @GetMapping("/produto/{produto}")
-    public ResponseEntity<Optional<EstoqueDTO>> findByProduto(@PathVariable String produto) {
+    public ResponseEntity<List<EstoqueDTO>> findByProduto(@PathVariable String produto) {
         var estoque = estoqueService.findByProduto(produto);
-        return ResponseEntity.ok(estoque);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<EstoqueDTO>> findAll() {
-        var estoque = estoqueService.findAll();
         return ResponseEntity.ok(estoque);
     }
 
@@ -54,10 +55,15 @@ public class EstoqueController {
         return ResponseEntity.ok(estoque);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<EstoqueDTO> update(@RequestBody EstoqueDTO estoqueDTO, @PathVariable Long id) {
+        estoqueService.update(estoqueDTO, id);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         estoqueService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
 }

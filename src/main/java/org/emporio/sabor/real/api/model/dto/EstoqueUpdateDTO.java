@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EstoqueDTO {
-
-    private Long id;
+public class EstoqueUpdateDTO {
 
     private String produto;
 
