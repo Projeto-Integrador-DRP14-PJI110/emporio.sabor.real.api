@@ -3,7 +3,7 @@ package org.emporio.sabor.real.api.service;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
-import org.emporio.sabor.real.api.model.EstoqueMapper;
+import org.emporio.sabor.real.api.model.mapper.EstoqueMapper;
 import org.emporio.sabor.real.api.model.dto.EstoqueDTO;
 import org.emporio.sabor.real.api.repository.EstoqueRepository;
 import org.springframework.stereotype.Service;

@@ -13,24 +13,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EstoqueDTO {
 
-    Long id;
+    private String produto;
 
-    String produto;
+    private Integer quantidade;
 
-    Integer quantidade;
+    private LocalDate validade;
 
-    LocalDate validade;
+    private String categoria;
 
-    String categoria;
+    private LocalDate dataCompra;
 
-    LocalDate dataCompra;
+    private BigDecimal precoCompra;
 
-    BigDecimal precoCompra;
+    private BigDecimal precoVenda;
 
-    BigDecimal precoVenda;
+    private String fornecedor;
 
-    String fornecedor;
-
-    String descricao;
+    private String descricao;
 
 }

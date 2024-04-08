@@ -2,6 +2,8 @@ package org.emporio.sabor.real.api.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
@@ -10,37 +12,38 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "estoque", catalog = "emporio_sabor_real", schema = "emporio_sabor_real")
+@Table(name = "estoque_produtos", catalog = "emporio_sabor_real", schema = "emporio_sabor_real")
 public class EstoqueEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
-    Long id;
+    private Long id;
 
     @Column(name = "produto", nullable = false)
-    String produto;
+    private String produto;
 
     @Column(name = "quantidade", nullable = false)
-    Integer quantidade;
+    private Integer quantidade;
 
     @Column(name = "validade", nullable = false)
-    LocalDate validade;
+    private LocalDate validade;
 
     @Column(name = "categoria", nullable = false)
-    String categoria;
+    private String categoria;
 
     @Column(name = "data_compra")
-    LocalDate dataCompra;
+    private LocalDate dataCompra;
 
     @Column(name = "preco_compra", nullable = false)
-    BigDecimal precoCompra;
+    private BigDecimal precoCompra;
 
     @Column(name = "preco_venda", nullable = false)
-    BigDecimal precoVenda;
+    private BigDecimal precoVenda;
 
-    @Column(name = "fornecedor", nullable = false)
-    String fornecedor;
+    @Column(name = "fornecedor")
+    private String fornecedor;
 
     @Column(name = "descricao")
-    String descricao;
+    private String descricao;
 }

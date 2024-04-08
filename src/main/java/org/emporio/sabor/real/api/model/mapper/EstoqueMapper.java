@@ -1,10 +1,9 @@
-package org.emporio.sabor.real.api.model;
+package org.emporio.sabor.real.api.model.mapper;
 
 import java.util.List;
 import org.emporio.sabor.real.api.model.dto.EstoqueDTO;
 import org.emporio.sabor.real.api.model.entity.EstoqueEntity;
 import org.mapstruct.Mapper;
-import org.springframework.data.domain.Page;
 
 @Mapper(componentModel = "spring")
 public interface EstoqueMapper {

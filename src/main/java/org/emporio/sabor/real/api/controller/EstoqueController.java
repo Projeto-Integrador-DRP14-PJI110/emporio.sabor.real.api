@@ -25,16 +25,16 @@ public class EstoqueController {
     @PostMapping
     public ResponseEntity<EstoqueDTO> salvar(@RequestBody EstoqueDTO estoqueDTO) {
         var estoque = estoqueService.salvar(estoqueDTO);
-        return ResponseEntity.ok(estoque);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping("/id")
     public ResponseEntity<EstoqueDTO> findById(Long id) {
         var estoque = estoqueService.findById(id);
         return ResponseEntity.ok(estoque.orElse(null));
     }
 
-    @GetMapping
+    @GetMapping("/produto")
     public ResponseEntity<EstoqueDTO> findByProduto(String produto) {
         var estoque = estoqueService.findByProduto(produto);
         return ResponseEntity.ok(estoque.orElse(null));
@@ -46,13 +46,13 @@ public class EstoqueController {
         return ResponseEntity.ok(estoque);
     }
 
-    @GetMapping
+    @GetMapping("/categoria")
     public ResponseEntity<List<EstoqueDTO>> findByCategoria(String categoria) {
         var estoque = estoqueService.findByCategoria(categoria);
         return ResponseEntity.ok(estoque);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/id")
     public ResponseEntity<Void> deleteById(Long id) {
         estoqueService.deleteById(id);
         return ResponseEntity.noContent().build();
