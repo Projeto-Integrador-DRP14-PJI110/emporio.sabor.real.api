@@ -22,7 +22,6 @@
   <maven.compiler.source>21</maven.compiler.source>
   <maven.compiler.target>21</maven.compiler.target>
   <spring-cloud.version>2022.0.0</spring-cloud.version>
-  <springdocs.version>1.6.15</springdocs.version>
   <commons.io.version>2.12.0</commons.io.version>
   <spring-data-commons.version>3.0.5</spring-data-commons.version>
   <annotations.version>24.0.1</annotations.version>
@@ -72,12 +71,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-ui</artifactId>
-      <version>${springdocs.version}</version>
-    </dependency>
-
-    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>${commons.io.version}</version>
@@ -99,11 +92,17 @@
       <artifactId>jackson-core</artifactId>
     </dependency>
 
-<!--    <dependency>-->
-<!--      <groupId>org.springdoc</groupId>-->
-<!--      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>-->
-<!--      <version>${springdoc-openapi.version}</version>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>${springdoc-openapi.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-webflux-ui</artifactId>
+      <version>1.6.15</version>
+    </dependency>
 
     <dependency>
       <groupId>org.mapstruct</groupId>
