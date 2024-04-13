@@ -7,7 +7,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
-import org.emporio.sabor.real.api.model.dto.EstoqueDTO;
+import org.emporio.sabor.real.api.domain.dto.EstoqueRequestDTO;
+import org.emporio.sabor.real.api.domain.dto.EstoqueResponseDTO;
+import org.emporio.sabor.real.api.domain.dto.EstoqueUpdateDTO;
+import org.emporio.sabor.real.api.domain.mapper.EstoqueMapper;
 import org.emporio.sabor.real.api.service.EstoqueService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,70 +33,78 @@ import org.springframework.web.bind.annotation.RestController;
 public class EstoqueController {
 
     private final EstoqueService estoqueService;
+    private final EstoqueMapper estoqueMapper;
 
     @PostMapping
-    @Operation(summary = "Salvar um produto no estoque", description = "Salva um produto no estoque", tags = {
-          "Estoque Emporio Sabor Real"})
+    @Operation(summary = "Salvar um produto no estoque",
+          description = "Salva um produto no estoque", tags = {"Estoque Emporio Sabor Real"})
     @ApiResponses(value = {
           @ApiResponse(responseCode = "201", description = "Produto criado com sucesso")})
-    public ResponseEntity<EstoqueDTO> salvar(@RequestBody EstoqueDTO estoqueDTO) {
-        estoqueService.salvar(estoqueDTO);
+    public ResponseEntity<EstoqueRequestDTO> salvar(@RequestBody EstoqueRequestDTO estoqueRequestDTO) {
+        estoqueService.salvar(estoqueMapper.create(estoqueRequestDTO));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
-    @Operation(summary = "Buscar todos os produtos do estoque", description = "Busca todos os produtos cadastrados no estoque", tags = {
-          "Estoque Emporio Sabor Real"})
+    @Operation(summary = "Buscar todos os produtos do estoque",
+          description = "Busca todos os produtos cadastrados no estoque",
+          tags = {"Estoque Emporio Sabor Real"})
     @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "Retorna todos os produtos do estoque")})
-    public ResponseEntity<List<EstoqueDTO>> findAll() {
+    public ResponseEntity<List<EstoqueResponseDTO>> findAll() {
         var estoque = estoqueService.findAll();
-        return ResponseEntity.ok(estoque);
+        return ResponseEntity.ok(estoqueMapper.toDTO(estoque));
     }
 
     @GetMapping("/id/{id}")
-    @Operation(summary = "Buscar um produto pelo id", description = "Busca um produto cadastrado no estoque pelo id", tags = {
-          "Estoque Emporio Sabor Real"})
+    @Operation(summary = "Buscar um produto pelo id",
+          description = "Busca um produto cadastrado no estoque pelo id",
+          tags = {"Estoque Emporio Sabor Real"})
     @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "Retorna o produto do estoque")})
-    public ResponseEntity<Optional<EstoqueDTO>> findById(@PathVariable Long id) {
+    public ResponseEntity<Optional<EstoqueResponseDTO>> findById(@PathVariable Long id) {
         var estoque = estoqueService.findById(id);
-        return ResponseEntity.ok(estoque);
+        return ResponseEntity.ok(estoque.map(estoqueMapper::toResponse));
     }
 
     @GetMapping("/produto/{produto}")
-    @Operation(summary = "Buscar um produto pelo nome", description = "Busca um produto cadastrado no estoque pelo nome", tags = {
-          "Estoque Emporio Sabor Real"})
+    @Operation(summary = "Buscar um produto pelo nome",
+          description = "Busca um produto cadastrado no estoque pelo nome",
+          tags = {"Estoque Emporio Sabor Real"})
     @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "Retorna o produto do estoque")})
-    public ResponseEntity<List<EstoqueDTO>> findByProduto(@PathVariable String produto) {
+    public ResponseEntity<List<EstoqueResponseDTO>> findByProduto(@PathVariable String produto) {
         var estoque = estoqueService.findByProduto(produto);
-        return ResponseEntity.ok(estoque);
+        return ResponseEntity.ok(estoqueMapper.toDTO(estoque));
     }
 
     @GetMapping("/categoria/{categoria}")
-    @Operation(summary = "Buscar um produto pela categoria", description = "Busca um produto cadastrado no estoque pela categoria", tags = {
-          "Estoque Emporio Sabor Real"})
+    @Operation(summary = "Buscar um produto pela categoria",
+          description = "Busca um produto cadastrado no estoque pela categoria",
+          tags = {"Estoque Emporio Sabor Real"})
     @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "Retorna o produto do estoque")})
-    public ResponseEntity<List<EstoqueDTO>> findByCategoria(@PathVariable String categoria) {
+    public ResponseEntity<List<EstoqueResponseDTO>> findByCategoria(@PathVariable String categoria) {
         var estoque = estoqueService.findByCategoria(categoria);
-        return ResponseEntity.ok(estoque);
+        return ResponseEntity.ok(estoqueMapper.toDTO(estoque));
     }
 
     @PatchMapping("/{id}")
-    @Operation(summary = "Atualizar um produto no estoque", description = "Atualiza um produto no estoque", tags = {
-          "Estoque Emporio Sabor Real"})
+    @Operation(summary = "Atualizar um produto no estoque",
+          description = "Atualiza um produto no estoque",
+          tags = {"Estoque Emporio Sabor Real"})
     @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "Produto atualizado com sucesso")})
-    public ResponseEntity<EstoqueDTO> update(@RequestBody EstoqueDTO estoqueDTO, @PathVariable Long id) {
-        estoqueService.update(estoqueDTO, id);
+    public ResponseEntity<EstoqueRequestDTO> update(@RequestBody EstoqueUpdateDTO estoqueUpdateDTO,
+          @PathVariable Long id) {
+        estoqueService.update(estoqueMapper.update(estoqueUpdateDTO), id);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Deletar um produto do estoque", description = "Deleta um produto do estoque", tags = {
-          "Estoque Emporio Sabor Real"})
+    @Operation(summary = "Deletar um produto do estoque",
+          description = "Deleta um produto do estoque",
+          tags = {"Estoque Emporio Sabor Real"})
     @ApiResponses(value = {
           @ApiResponse(responseCode = "204", description = "Produto deletado com sucesso")})
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
