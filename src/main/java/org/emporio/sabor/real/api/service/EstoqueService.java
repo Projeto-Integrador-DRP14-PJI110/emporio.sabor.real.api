@@ -55,7 +55,11 @@ public class EstoqueService {
         estoqueMapper.toDTO(estoqueSave);
     }
 
-    public void deleteById(Long id) {
-        estoqueRepository.deleteById(id);
+    public void inactivate(Long id) {
+        var estoqueEntity = estoqueRepository.findById(id).orElseThrow(()
+              -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Estoque não encontrado"));
+
+        estoqueEntity.setProdutoDisponivel(false);
+        estoqueRepository.save(estoqueEntity);
     }
 }

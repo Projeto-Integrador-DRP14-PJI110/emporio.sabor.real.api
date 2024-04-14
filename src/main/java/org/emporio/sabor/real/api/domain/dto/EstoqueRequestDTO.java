@@ -22,5 +22,6 @@ public class EstoqueRequestDTO {
     private BigDecimal precoVenda;
     private String fornecedor;
     private String descricao;
+    private Boolean produtoDisponivel;
 
 }

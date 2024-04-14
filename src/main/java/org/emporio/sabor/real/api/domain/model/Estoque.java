@@ -33,4 +33,6 @@ public class Estoque {
 
     private String descricao;
 
+    private Boolean produtoDisponivel;
+
 }

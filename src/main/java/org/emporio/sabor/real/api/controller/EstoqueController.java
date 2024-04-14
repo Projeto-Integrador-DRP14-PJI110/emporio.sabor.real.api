@@ -102,13 +102,13 @@ public class EstoqueController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Deletar um produto do estoque",
-          description = "Deleta um produto do estoque",
+    @Operation(summary = "Inativar um produto do estoque",
+          description = "Inativar um produto do estoque",
           tags = {"Estoque Emporio Sabor Real"})
     @ApiResponses(value = {
-          @ApiResponse(responseCode = "204", description = "Produto deletado com sucesso")})
+          @ApiResponse(responseCode = "204", description = "Produto inativado com sucesso")})
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        estoqueService.deleteById(id);
+        estoqueService.inactivate(id);
         return ResponseEntity.noContent().build();
     }
 }

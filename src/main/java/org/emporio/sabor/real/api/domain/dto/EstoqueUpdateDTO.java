@@ -22,4 +22,5 @@ public class EstoqueUpdateDTO {
     private BigDecimal precoVenda;
     private String fornecedor;
     private String descricao;
+    private Boolean produtoDisponivel;
 }

@@ -9,10 +9,12 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import lombok.Data;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Data
 @Table(name = "estoque_produtos", catalog = "emporio_sabor_real", schema = "emporio_sabor_real")
+@Where(clause = "produto_disponivel = true")
 public class EstoqueEntity {
 
     @Id
@@ -46,4 +48,7 @@ public class EstoqueEntity {
 
     @Column(name = "descricao")
     private String descricao;
+
+    @Column(name = "produto_disponivel", nullable = false, columnDefinition = "boolean default true")
+    private Boolean produtoDisponivel;
 }
