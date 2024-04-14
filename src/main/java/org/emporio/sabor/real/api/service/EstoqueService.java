@@ -5,11 +5,10 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.emporio.sabor.real.api.domain.model.Estoque;
 import org.emporio.sabor.real.api.domain.mapper.EstoqueMapper;
+import org.emporio.sabor.real.api.exception.NotFoundException;
 import org.emporio.sabor.real.api.repository.EstoqueRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @AllArgsConstructor
@@ -19,6 +18,8 @@ public class EstoqueService {
     private final EstoqueRepository estoqueRepository;
     private final EstoqueMapper estoqueMapper;
 
+    private static final String PRODUTO_NAO_ENCONTRADO = "Produto não encontrado";
+
     public void salvar(Estoque estoque) {
         var estoqueEntity = estoqueMapper.toEntity(estoque);
         var estoqueSave = estoqueRepository.save(estoqueEntity);
@@ -27,16 +28,28 @@ public class EstoqueService {
 
     public Optional<Estoque> findById(Long id) {
         var estoque = estoqueRepository.findById(id);
+
+        if (estoque.isEmpty()) {
+            throw new NotFoundException(PRODUTO_NAO_ENCONTRADO);
+        }
         return estoque.map(estoqueMapper::toDTO);
     }
 
     public List<Estoque> findByCategoria(String categoria) {
         var estoque = estoqueRepository.findByCategoria(categoria);
+
+        if (estoque.isEmpty()) {
+            throw new NotFoundException("Categoria não encontrada");
+        }
         return estoqueMapper.toModel(estoque);
     }
 
     public List<Estoque> findByProduto(String produto) {
         var estoque = estoqueRepository.findByProduto(produto);
+
+        if (estoque.isEmpty()) {
+            throw new NotFoundException(PRODUTO_NAO_ENCONTRADO);
+        }
         return estoqueMapper.toModel(estoque);
     }
 
@@ -47,7 +60,7 @@ public class EstoqueService {
 
     public void update(Estoque estoque, Long id) {
         var estoqueEntity = estoqueRepository.findById(id).orElseThrow(()
-              -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Estoque não encontrado"));
+              -> new NotFoundException(PRODUTO_NAO_ENCONTRADO));
 
         var estoqueUpdate = estoqueMapper.update(estoqueEntity, estoque);
 
@@ -57,7 +70,7 @@ public class EstoqueService {
 
     public void inactivate(Long id) {
         var estoqueEntity = estoqueRepository.findById(id).orElseThrow(()
-              -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Estoque não encontrado"));
+              -> new NotFoundException(PRODUTO_NAO_ENCONTRADO));
 
         estoqueEntity.setProdutoDisponivel(false);
         estoqueRepository.save(estoqueEntity);
