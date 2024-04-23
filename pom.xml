@@ -18,9 +18,9 @@
   <description>Emporio Sabor Real Api</description>
 
   <properties>
-  <java.version>21</java.version>
-  <maven.compiler.source>21</maven.compiler.source>
-  <maven.compiler.target>21</maven.compiler.target>
+  <java.version>17</java.version>
+  <maven.compiler.source>17</maven.compiler.source>
+  <maven.compiler.target>17</maven.compiler.target>
   <spring-cloud.version>2022.0.0</spring-cloud.version>
   <commons.io.version>2.12.0</commons.io.version>
   <spring-data-commons.version>3.0.5</spring-data-commons.version>
