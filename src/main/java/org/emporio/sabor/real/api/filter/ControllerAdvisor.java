@@ -1,14 +1,7 @@
 package org.emporio.sabor.real.api.filter;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-
-import java.util.Map;
-import java.util.concurrent.CompletionException;
-import java.util.function.BiFunction;
-import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.BadRequestException;
-import org.emporio.sabor.real.api.exception.BadRequestExcpetion;
+import org.emporio.sabor.real.api.exception.BadRequestException;
 import org.emporio.sabor.real.api.exception.ExternalServerErrorException;
 import org.emporio.sabor.real.api.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -23,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class ControllerAdvisor {
 
-    record ErrorDTO(String code, String message) {
+    public record ErrorDTO(String code, String message) {
     }
 
     @ExceptionHandler(NotFoundException.class)
@@ -35,7 +28,7 @@ public class ControllerAdvisor {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO(errorCode, errorMsg));
     }
 
-    @ExceptionHandler(BadRequestExcpetion.class)
+    @ExceptionHandler(BadRequestException.class)
     public ResponseEntity handleBadRequestErrors(Exception ex) {
         log.error("Bad Request exception: {}", ex.getMessage(), ex);
         var errorMsg = ex.getMessage();
