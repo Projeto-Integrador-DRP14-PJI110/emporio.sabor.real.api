@@ -11,4 +11,5 @@ public class AuthProperties {
 
     private String apiKey;
     private String key;
-    private String pepper;}
+    private String pepper;
+}

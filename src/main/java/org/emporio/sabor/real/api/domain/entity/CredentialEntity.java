@@ -13,9 +13,9 @@ public class CredentialEntity {
     @Column(name = "id", unique = true)
     private Long id;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, columnDefinition = "text")
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false, columnDefinition = "text")
     private String password;
 }

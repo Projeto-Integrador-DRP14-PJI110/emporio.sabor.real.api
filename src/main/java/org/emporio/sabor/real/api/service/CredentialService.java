@@ -65,7 +65,7 @@ public class CredentialService {
     }
 
     public boolean isPasswordValid(String password, Credential credential) throws Exception {
-        return encryptPasswordService.isPasswordValid(credential.getEmail(), password);
+        return encryptPasswordService.isPasswordValid(credential.getPassword(), password);
     }
 
     public Credential validateEmailOnDatabase(String email) {

@@ -2,9 +2,11 @@ package org.emporio.sabor.real.api.domain.mapper;
 
 import org.emporio.sabor.real.api.domain.entity.CredentialEntity;
 import org.emporio.sabor.real.api.domain.model.Credential;
+import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+@Mapper
 public interface CredentialMapper {
 
     CredentialMapper CREDENTIAL_MAPPER = Mappers.getMapper(CredentialMapper.class);

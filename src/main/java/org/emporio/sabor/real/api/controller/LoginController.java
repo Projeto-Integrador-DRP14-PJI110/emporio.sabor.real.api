@@ -19,8 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/credential")
+@RequestMapping("api/v1/credential")
 @AllArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Tag(name = "Login", description = "Login API")
 public class LoginController {
 
@@ -34,8 +35,7 @@ public class LoginController {
     public ResponseEntity<AuthResponseDTO<Void>> login(
             @PathVariable("email") @NotNull String email, @RequestBody AuthRequestDTO authRequestDTO)
             throws Exception {
-        credentialService.authenticate(email.toLowerCase(),
-                authRequestDTO.getPassword());
+        credentialService.authenticate(email.toLowerCase(), authRequestDTO.getPassword());
         return ResponseEntity.ok().build();
     }
 
