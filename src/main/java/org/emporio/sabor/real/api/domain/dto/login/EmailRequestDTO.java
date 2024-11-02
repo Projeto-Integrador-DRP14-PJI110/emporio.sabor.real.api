@@ -4,10 +4,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class AuthRequestDTO {
+public class EmailRequestDTO {
 
     @NotNull
     private String email;
-    @NotNull
-    private String password;
 }
