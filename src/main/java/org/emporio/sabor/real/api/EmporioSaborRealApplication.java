@@ -2,8 +2,10 @@ package org.emporio.sabor.real.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+@EnableFeignClients
 @SpringBootApplication(scanBasePackages = "org.emporio")
 @EnableJpaRepositories(basePackages = "org.emporio.sabor.real.api.repository")
 public class EmporioSaborRealApplication {
