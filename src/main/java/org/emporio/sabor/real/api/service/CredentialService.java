@@ -2,6 +2,7 @@ package org.emporio.sabor.real.api.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.emporio.sabor.real.api.domain.dto.RecoveryEmailDTO;
 import org.emporio.sabor.real.api.domain.dto.login.AuthRequestDTO;
 import org.emporio.sabor.real.api.domain.dto.login.AuthResponseDTO;
 import org.emporio.sabor.real.api.domain.dto.login.ChangePasswordRequestDTO;
@@ -13,6 +14,7 @@ import org.emporio.sabor.real.api.repository.CredentialRepository;
 import org.springframework.stereotype.Service;
 
 import static org.emporio.sabor.real.api.domain.mapper.CredentialMapper.CREDENTIAL_MAPPER;
+import static org.emporio.sabor.real.api.domain.mapper.EmailMapper.EMAIL_MAPPER;
 
 @Service
 @AllArgsConstructor
@@ -21,6 +23,8 @@ public class CredentialService {
 
     private final CredentialRepository repository;
     private final EncryptPasswordService encryptPasswordService;
+    private final EmailService emailService;
+    private final static String SUBJECT = "Recuperação de Senha - Empório Sabor Real";
 
     public void authenticate(String email, String password) throws Exception {
         Credential credential = validateEmailOnDatabase(email);
@@ -80,12 +84,22 @@ public class CredentialService {
         return repository.findByEmail(email).isPresent();
     }
 
-    public PasswordDTO resetPassword(String email) throws Exception {
+    public void resetPassword(String email) throws Exception {
         String newPassword = encryptPasswordService.generatePassword();
         Credential credential = buildNewPasswordCredentials(email,
                 encryptPasswordService.saveSentPassword(newPassword));
         savePasswordOnDatabase(credential);
-        return PasswordDTO.builder().password(newPassword).build();
+        sendRecoveryEmail(email, newPassword);
+    }
+
+    private void sendRecoveryEmail(String email, String token) {
+        var recoveryEmailBuilder = RecoveryEmailDTO.builder()
+                .email(email)
+                .token(token)
+                .subject(SUBJECT)
+                .build();
+        var recoveryEmail = EMAIL_MAPPER.toRecoveryEmail(recoveryEmailBuilder);
+        emailService.sendRecoveryEmail(recoveryEmail);
     }
 
     public void changePassword(String email, ChangePasswordRequestDTO request)

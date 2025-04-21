@@ -53,7 +53,7 @@ public class CredentialController {
             @ApiResponse(responseCode = "200", description = "Reseta um e-mail existente")})
     public ResponseEntity<AuthResponseDTO<PasswordDTO>> reset(
             @RequestBody EmailRequestDTO request) throws Exception {
-        var response = credentialService.resetPassword(request.getEmail().toLowerCase());
-        return ResponseEntity.ok(new AuthResponseDTO<>(response));
+        credentialService.resetPassword(request.getEmail().toLowerCase());
+        return ResponseEntity.ok().build();
     }
 }
