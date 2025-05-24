@@ -6,6 +6,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.emporio.sabor.real.api.excel.SpreadsheetExcelFileValidations;
 import org.emporio.sabor.real.api.service.UploadService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,7 @@ import java.io.IOException;
 @RequestMapping(value = "api/v1/upload")
 @AllArgsConstructor
 @Validated
+@Slf4j
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Tag(name = "Upload", description = "Upload API")
 public class UploadController {
@@ -32,7 +36,12 @@ public class UploadController {
             @ApiResponse(responseCode = "200", description = "Realiza upload de arquivos")})
     public ResponseEntity<Void> uploadFile(@Valid @RequestParam(value = "file") MultipartFile file) throws IOException {
 
-        uploadService.upload(file.getBytes());
+        uploadService.uploadFile(getExcelWorkbook(file));
         return ResponseEntity.ok().build();
+    }
+
+    private Workbook getExcelWorkbook(MultipartFile file) throws IOException {
+        log.info("Converting uploaded file to excel workbook");
+        return SpreadsheetExcelFileValidations.getWorkbook(file);
     }
 }

@@ -29,6 +29,7 @@
   <jackson.datatype.jsr310.version>2.15.2</jackson.datatype.jsr310.version>
   <springdoc-openapi.version>2.1.0</springdoc-openapi.version>
   <mapstruct.version>1.5.5.Final</mapstruct.version>
+  <apache.poi.version>5.2.3</apache.poi.version>
   </properties>
 
   <dependencies>
@@ -131,6 +132,18 @@
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-openfeign</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>${apache.poi.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>${apache.poi.version}</version>
+    </dependency>
+
   </dependencies>
 
   <dependencyManagement>
